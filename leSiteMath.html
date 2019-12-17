@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="monCss.css">
+    <script>
+        //Le slider
+
+
+        var xbille = 500;
+        var ybille = 600;
+
+
+        function dessineBillard() {
+
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            var a = document.getElementById("inputA").value;
+            var b = document.getElementById("inputB").value;
+
+            ctx.ellipse(100, 50, a, b, 0, 0, 2 * Math.PI);
+
+
+            ctx.stroke();
+            dessineBilleInit();
+        }
+
+        function dessineBilleInit() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+
+            ctx.arc(100, 50, 10, 0, 2 * Math.PI);
+
+            ctx.stroke();
+
+        }
+
+
+    </script>
+</head>
+<body>
+<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
+
+<input type="range" value="25" max="100" min="30" div id="inputA">
+<input type="range" value="25" max="40" min="10" div id="inputB">
+
+
+<div id="slider"></div>
+
+<canvas id="canvas" style="  width: 1000px; height:1000px;"></canvas>
+</body>
+</html>
