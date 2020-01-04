@@ -15,6 +15,12 @@ class Point {
     get y() {
         return this._y;
     }
+
+    symetriqueCentre(centre) {
+        if (centre instanceof Point) {
+            return new Point(2 * centre.x - this.x, 2 * centre.y - this.y);
+        }
+    }
 }
 
 class Droite {
@@ -54,6 +60,10 @@ class Droite {
             }
         }
     }
+
+    getY(x) {
+        return this.a * x + this.b;
+    }
 }
 
 class Ellipse {
@@ -90,8 +100,51 @@ class Ellipse {
                 const p2 = new Point(x2, y2);
                 return {p1, p2};
             }
-        }else{
+        } else {
             throw "Invalid parameter : mus be a Droite"
         }
+    }
+
+    tangente(point) {
+        if (point instanceof Point) {
+            return new Droite(((-Math.pow(this.b, 2) * point.x) / Math.pow(this.a, 2) * point.y), Math.pow(this.b, 2) / point.y);
+        } else {
+            throw "Invalid parameter : mus be a Point"
+        }
+    }
+}
+
+function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
+    const droiteTrajectoire = new Droite(pointDeDepart, pointDeDirection);
+    const pointsRebond = ellipse.intersection(droiteTrajectoire);
+    let res = {point: null, pointTraj: null};
+    if (pointDeDepart.x < pointDeDirection.y) {
+        if (pointsRebond.p1.x > pointDeDepart.x) {
+            res.point = pointsRebond.p1;
+        } else {
+            res.point = pointsRebond.p2;
+        }
+    }
+    const tangente = ellipse.tangente(res.point);
+    const tangente0 = new Droite(tangente.a, 0);
+    const axeSymetrie = tangente.perpendiculaire(res.point);
+    const centreCymetrie = axeSymetrie.intersection(tangente0);
+    const pointOrigine = tangente0.intersection(droiteTrajectoire);
+    const newTrajectoire = new Droite(res.point, pointOrigine.symetriqueCentre(centreCymetrie));
+    const pointTrajX = res.point.x + pointDeDirection.x - pointDeDepart.x;
+    res.pointTraj = new Point(pointTrajX, newTrajectoire.getY(pointTrajX));
+    return res;
+}
+
+/*
+Renvoie une liste de points
+ */
+function calculerNRebonds(ellipse, pointDeDepart, pointDeDirection, n = 1) {
+    let res = [pointDeDepart];
+    let i = 1;
+    let lastRes = calculerRebond(ellipse, pointDeDepart, pointDeDirection);
+    res[i] = lastRes.point;
+    for (i = 2; i < n; i++) {
+        lastRes = calculerRebond(ellipse, lastRes.point, lastRes.pointTraj);
     }
 }
