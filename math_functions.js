@@ -23,10 +23,43 @@ class Point {
 
     draw(ctx, couleur, radius = 5, decalageX = 0, decalageY = 0, width = "2") {
         ctx.width = width;
+        ctx.beginPath();
         ctx.strokeStyle = couleur;
         ctx.arc(decalageX + this.x, decalageY + this.y, radius, 0, 2 * Math.PI);
         ctx.stroke();
+        ctx.closePath();
+        ctx.strokeStyle = 'black';
     }
+}
+
+
+class Segment{
+
+    constructor(a, b) {
+        if (a instanceof Point && b instanceof Point) {
+            this._xa = a.x;
+            this._xb = b.x;
+            this._ya = a.y;
+            this._yb = b.y;
+        }
+         else {
+            throw "Invalid parameter : must be number or Point"
+        }
+    }
+
+    draw(ctx, couleur, decalageX = 0, decalageY = 0, width = "2") {
+    ctx.width = width;
+    ctx.beginPath();
+    ctx.strokeStyle = couleur;
+
+    ctx.moveTo(decalageX+this._xa,decalageY+this._ya);
+    ctx.lineTo(decalageX+this._xb,decalageY +this._yb);
+
+    ctx.stroke();
+    ctx.closePath();
+    ctx.strokeStyle = 'black';
+}
+
 }
 
 class Droite {

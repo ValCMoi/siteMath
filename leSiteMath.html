@@ -8,6 +8,9 @@
     <script type="text/javascript" src="math_functions.js"></script>
     <script>
 
+        var pointDepart;
+        var pointTrajectoire;
+
         function dessineBillard() {
 
             const canvas = document.getElementById('canvas');
@@ -32,37 +35,30 @@
         function dessineBoule() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            ctx.beginPath();
 
             var xb = document.getElementById("inputxb").value;
             var yb = document.getElementById("inputyb").value;
 
-            ctx.arc(500 + xb, 500 + yb, 5, 0, Math.PI * 2, true);
+            xb = parseInt(xb);
+            yb = parseInt(yb);
 
-            ctx.stroke();
+            pointDepart = new Point(xb,yb);
+            pointDepart.draw(ctx,'black',5,500,500,2);
         }
 
         function dessinePointTrajectoire() {
+
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            ctx.beginPath();
 
             var xt = document.getElementById("inputxt").value;
             var yt = document.getElementById("inputyt").value;
 
-            //ctx.arc(500-xt, 500-yt, 5, 0, Math.PI * 2, true);
-            ctx.width = "1";
-            ctx.strokeStyle = 'orange';
-            ctx.moveTo(500 - xt - 10, 500 - yt);
-            ctx.lineTo(500 - xt + 10, 500 - yt);
+            xt = parseInt(xt);
+            yt = parseInt(yt);
 
-
-            ctx.moveTo(500 - xt, 500 - yt - 10);
-            ctx.lineTo(500 - xt, 500 - yt + 10);
-
-
-            ctx.stroke();
-            ctx.strokeStyle = 'black';
+            pointTrajectoire = new Point(xt,yt);
+            pointTrajectoire.draw(ctx,'cyan',5,500,500,15);
         }
 
 
@@ -79,15 +75,9 @@
             var yb = document.getElementById("inputyb").value;
 
 
-            ctx.width = "1";
-            ctx.strokeStyle = 'red';
-            ctx.setLineDash([15, 20]);
-            ctx.moveTo(500 - xb, 500 - yb);
-            ctx.lineTo(500 - xt, 500 - yt);
+            var s = new Segment(pointDepart,pointTrajectoire);
+            s.draw(ctx,'green',500,500,2);
 
-            ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.strokeStyle = 'black';
         }
 
         function dessineDroite(a, c) {
@@ -111,56 +101,7 @@
         }
 
         function dessineLigne0() {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.beginPath();
 
-
-            var a = document.getElementById("inputA").value;
-            var b = document.getElementById("inputB").value;
-
-            var xt = document.getElementById("inputxt").value;
-            var yt = document.getElementById("inputyt").value;
-
-            var xb = document.getElementById("inputxb").value;
-            var yb = document.getElementById("inputyb").value;
-
-            var n = document.getElementById("inputN").value;
-
-
-
-            a = parseInt(a);
-            b = parseInt(b);
-
-            xt = parseInt(xt);
-            yt = parseInt(yt);
-
-            xb = parseInt(xb);
-            yb = parseInt(yb);
-
-
-            var alpha = (yt - yb) / (xt - xb);
-
-            var d = new Droite(alpha, 0);
-            var e = new Ellipse(a, b);
-
-            var ptDepart = new Point(xb,yb);
-            var ptDirection = new Point(xt,yt);
-
-            var listeRebonds = calculerNRebonds(e,ptDepart,ptDirection,n);
-
-            ctx.width = "2";
-            ctx.strokeStyle = 'blue';
-
-            alert("X intersection = " + e.intersection(d).p1.x);
-            alert("Y intersection = " + e.intersection(d).p1.y);
-
-            ctx.beginPath();
-            ctx.moveTo(500+xb,500+yb);
-            ctx.lineTo(listeRebonds[0].getX(),listeRebonds[0].getY())
-            ctx.stroke();
-
-            ctx.strokeStyle = 'black';
         }
 
 
