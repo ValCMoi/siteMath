@@ -22,7 +22,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             ctx.beginPath();
-            ctx.lineWidth="1";
+            ctx.lineWidth = "1";
             var a = document.getElementById("inputA").value;
             var b = document.getElementById("inputB").value;
 
@@ -32,6 +32,7 @@
             dessineBoule();
             dessinePointTrajectoire();
             dessineLigneTrajectoire0();
+            dessineLigne0();
         }
 
         function dessineBoule() {
@@ -42,7 +43,7 @@
             var xb = document.getElementById("inputxb").value;
             var yb = document.getElementById("inputyb").value;
 
-            ctx.arc(500-xb, 500-yb, 5, 0, Math.PI * 2, true);
+            ctx.arc(500 - xb, 500 - yb, 5, 0, Math.PI * 2, true);
 
             ctx.stroke();
         }
@@ -56,14 +57,14 @@
             var yt = document.getElementById("inputyt").value;
 
             //ctx.arc(500-xt, 500-yt, 5, 0, Math.PI * 2, true);
-            ctx.width="1";
+            ctx.width = "1";
             ctx.strokeStyle = 'orange';
-            ctx.moveTo(500-xt-10,500-yt);
-            ctx.lineTo(500-xt+10,500-yt);
+            ctx.moveTo(500 - xt - 10, 500 - yt);
+            ctx.lineTo(500 - xt + 10, 500 - yt);
 
 
-            ctx.moveTo(500-xt,500-yt-10);
-            ctx.lineTo(500-xt,500-yt+10);
+            ctx.moveTo(500 - xt, 500 - yt - 10);
+            ctx.lineTo(500 - xt, 500 - yt + 10);
 
 
             ctx.stroke();
@@ -84,19 +85,76 @@
             var yb = document.getElementById("inputyb").value;
 
 
-            ctx.width="1";
+            ctx.width = "1";
             ctx.strokeStyle = 'red';
-            ctx.moveTo(500- xb ,500- yb);
-            ctx.lineTo(500-xt,500-yt);
+            ctx.setLineDash([15, 20]);
+            ctx.moveTo(500 - xb, 500 - yb);
+            ctx.lineTo(500 - xt, 500 - yt);
 
             ctx.stroke();
+            ctx.setLineDash([]);
             ctx.strokeStyle = 'black';
         }
+
+        function dessineDroite(a, c) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+
+            var alpha = a;
+            var constante = c;
+
+            alpha *= -1;
+            ctx.width = "2";
+            ctx.strokeStyle = 'blue';
+
+            ctx.moveTo(0, alpha * 0 + constante);
+            ctx.lineTo(1000, alpha * 1000 + constante);
+
+            ctx.stroke();
+
+            ctx.strokeStyle = 'black';
+        }
+
+        function dessineLigne0() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+
+
+            var a = document.getElementById("inputA").value;
+            var b = document.getElementById("inputB").value;
+
+            var xt = document.getElementById("inputxt").value;
+            var yt = document.getElementById("inputyt").value;
+
+            var xb = document.getElementById("inputxb").value;
+            var yb = document.getElementById("inputyb").value;
+
+
+            var alpha = (yb - yt) / (xb - xt);
+
+            var d = new Droite(alpha, 0);
+            var e = new Ellipse(a, b);
+
+            ctx.width = "2";
+            ctx.strokeStyle = 'blue';
+
+            ctx.moveTo(xb, yb);
+            ctx.lineTo(e.intersection(d).p1.x, e.intersection(d).p1.y);
+            alert("X intersection = " + e.intersection(d).p1.x);
+            alert("Y intersection = " + e.intersection(d).p1.y);
+
+
+            ctx.stroke();
+
+            ctx.strokeStyle = 'black';
+        }
+
 
     </script>
 </head>
 <body>
-
 
 
 <p>Foyer A et Foyer B</p>
@@ -109,10 +167,12 @@
 
 
 <p>Position x et y du point trajectoire</p>
-<input type="range" value="25" max="100" min="-100" div id="inputxt">
-<input type="range" value="25" max="100" min="-100" div id="inputyt"><br>
+<input type="range" value="0" max="100" min="-100" div id="inputxt">
+<input type="range" value="0" max="100" min="-100" div id="inputyt"><br>
 
-<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button><br>
+<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
+<br>
+
 
 <canvas height="1000" width="1000" id="canvas" style="  width: 1000px; height:1000px;"></canvas>
 
