@@ -10,6 +10,7 @@ class Point {
     get x() {
         return this._x;
     }
+
     get y() {
         return this._y;
     }
@@ -18,6 +19,12 @@ class Point {
         if (centre instanceof Point) {
             return new Point(2 * centre.x - this.x, 2 * centre.y - this.y);
         }
+    }
+
+    draw(ctx, couleur, radius = 5, decalageX = 0, decalageY = 0, width = "2") {
+        ctx.width = width;
+        ctx.strokeStyle = couleur;
+        ctx.arc(decalageX + this.x, decalageY + this.y, radius, 0, 2 * Math.PI);
     }
 }
 
@@ -118,6 +125,12 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
     let res = {point: null, pointTraj: null};
     if (pointDeDepart.x < pointDeDirection.y) {
         if (pointsRebond.p1.x > pointDeDepart.x) {
+            res.point = pointsRebond.p1;
+        } else {
+            res.point = pointsRebond.p2;
+        }
+    } else {
+        if (pointsRebond.p1.x < pointDeDepart.x) {
             res.point = pointsRebond.p1;
         } else {
             res.point = pointsRebond.p2;
