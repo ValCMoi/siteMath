@@ -43,7 +43,7 @@
             var xb = document.getElementById("inputxb").value;
             var yb = document.getElementById("inputyb").value;
 
-            ctx.arc(500 - xb, 500 - yb, 5, 0, Math.PI * 2, true);
+            ctx.arc(500 + xb, 500 + yb, 5, 0, Math.PI * 2, true);
 
             ctx.stroke();
         }
@@ -132,6 +132,9 @@
             var yb = document.getElementById("inputyb").value;
 
 
+            a = parseInt(a);
+            b = parseInt(b);
+
             var alpha = (yb - yt) / (xb - xt);
 
             var d = new Droite(alpha, 0);
@@ -140,8 +143,6 @@
             ctx.width = "2";
             ctx.strokeStyle = 'blue';
 
-            ctx.moveTo(xb, yb);
-            ctx.lineTo(e.intersection(d).p1.x, e.intersection(d).p1.y);
             alert("X intersection = " + e.intersection(d).p1.x);
             alert("Y intersection = " + e.intersection(d).p1.y);
 
