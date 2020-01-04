@@ -151,7 +151,7 @@ class Ellipse {
 
     tangente(point) {
         if (point instanceof Point) {
-            return new Droite(((-Math.pow(this.b, 2) * point.x) / Math.pow(this.a, 2) * point.y), Math.pow(this.b, 2) / point.y);
+            return new Droite((-Math.pow(this.b, 2) * point.x) / (Math.pow(this.a, 2) * point.y), Math.pow(this.b, 2) / point.y);
         } else {
             throw "Invalid parameter : mus be a Point"
         }
@@ -176,16 +176,24 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
         }
     }
     const tangente = ellipse.tangente(res.point);
+    console.log("Tangente");
+    console.log(tangente);
     const tangente0 = new Droite(tangente.a, 0);
+    console.log("Tangente0");
+    console.log(tangente0);
     const axeSymetrie = tangente.perpendiculaire(res.point);
     const centreCymetrie = axeSymetrie.intersection(tangente0);
     const pointOrigine = tangente0.intersection(droiteTrajectoire);
+    console.log("PointOrigine");
+    console.log(pointOrigine);
     const newTrajectoire = new Droite(res.point, pointOrigine.symetriqueCentre(centreCymetrie));
+    console.log("newTrajectoire");
+    console.log(newTrajectoire);
     /*const pointTrajX = res.point.x + pointDeDirection.x - pointDeDepart.x;
     res.pointTraj = new Point(pointTrajX, newTrajectoire.getY(pointTrajX));*/
     const pointTrajA = new Point(res.point.x + 10, newTrajectoire.getY(res.point.x + 10));
     const pointTrajB = new Point(res.point.x - 10, newTrajectoire.getY(res.point.x - 10));
-    if (centreCymetrie.y > tangente.getY(pointDeDirection.x)) {
+    if (pointDeDirection.y > tangente.getY(pointDeDirection.x)) {
         if (pointTrajA.y > tangente.getY(pointTrajA.x)) {
             res.pointTraj = pointTrajA;
         } else {

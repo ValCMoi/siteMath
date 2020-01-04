@@ -10,6 +10,7 @@
 
         var pointDepart;
         var pointTrajectoire;
+        var ellipse;
 
         function dessineBillard() {
 
@@ -20,17 +21,24 @@
 
             ctx.beginPath();
             ctx.lineWidth = "1";
-            var a = document.getElementById("inputA").value;
-            var b = document.getElementById("inputB").value;
-
+            var a = parseInt(document.getElementById("inputA").value);
+            var b = parseInt(document.getElementById("inputB").value);
 
 
             ctx.ellipse(500, 500, a, b, 0, 0, 2 * Math.PI);
+            ellipse = new Ellipse(a, b);
 
             ctx.stroke();
             dessineBoule();
             dessinePointTrajectoire();
             dessineLigneTrajectoire0();
+
+            var tmp = calculerRebond(ellipse, pointDepart, pointTrajectoire);
+            tmp.point.draw(ctx, 'red', 5, 500, 500);
+            tmp.pointTraj.draw(ctx, 'black', 5, 500, 500);
+            console.log(tmp.point);
+            console.log(tmp.pointTraj);
+
             dessineLigne0();
         }
 
