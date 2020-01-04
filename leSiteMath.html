@@ -26,37 +26,98 @@
             var a = document.getElementById("inputA").value;
             var b = document.getElementById("inputB").value;
 
-            ctx.ellipse(100, 50, a, b, 0, 0, 2 * Math.PI);
-
-
+            ctx.ellipse(500, 500, a, b, 0, 0, 2 * Math.PI);
 ///njkenvkb
             ctx.stroke();
+            dessineBoule();
+            dessinePointTrajectoire();
+            dessineLigneTrajectoire0();
         }
 
         function dessineBoule() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
-            //ctx.arc(100, 0, 10, 0, 2 * Math.PI);
+
+            var xb = document.getElementById("inputxb").value;
+            var yb = document.getElementById("inputyb").value;
+
+            ctx.arc(500-xb, 500-yb, 5, 0, Math.PI * 2, true);
+
+            ctx.stroke();
+        }
+
+        function dessinePointTrajectoire() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+
+            var xt = document.getElementById("inputxt").value;
+            var yt = document.getElementById("inputyt").value;
+
+            //ctx.arc(500-xt, 500-yt, 5, 0, Math.PI * 2, true);
             ctx.width="1";
-            ctx.moveTo(0,0);
-            ctx.lineTo(100,10);
+            ctx.strokeStyle = 'orange';
+            ctx.moveTo(500-xt-10,500-yt);
+            ctx.lineTo(500-xt+10,500-yt);
+
+
+            ctx.moveTo(500-xt,500-yt-10);
+            ctx.lineTo(500-xt,500-yt+10);
 
 
             ctx.stroke();
+            ctx.strokeStyle = 'black';
+        }
+
+
+        function dessineLigneTrajectoire0() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+
+
+            var xt = document.getElementById("inputxt").value;
+            var yt = document.getElementById("inputyt").value;
+
+            var xb = document.getElementById("inputxb").value;
+            var yb = document.getElementById("inputyb").value;
+
+
+            ctx.width="1";
+            ctx.strokeStyle = 'red';
+            ctx.moveTo(500- xb ,500- yb);
+            ctx.lineTo(500-xt,500-yt);
+
+            ctx.stroke();
+            ctx.strokeStyle = 'black';
         }
 
     </script>
 </head>
 <body>
-<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
-<button id="btnBoule" onclick="dessineBoule()">Dessiner la boule</button>
-<input type="range" value="25" max="100" min="30" div id="inputA">
-<input type="range" value="25" max="40" min="10" div id="inputB">
 
+
+
+<p>Foyer A et Foyer B</p>
+<input type="range" value="25" max="250" min="150" div id="inputA">
+<input type="range" value="25" max="250" min="150" div id="inputB"><br>
+
+<p>Position x et position y de la boule</p>
+<input type="range" value="25" max="100" min="-100" div id="inputxb">
+<input type="range" value="25" max="100" min="-100" div id="inputyb"><br>
+
+
+<p>Position x et y du point trajectoire</p>
+<input type="range" value="25" max="100" min="-100" div id="inputxt">
+<input type="range" value="25" max="100" min="-100" div id="inputyt"><br>
+
+<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button><br>
+
+<canvas height="1000" width="1000" id="canvas" style="  width: 1000px; height:1000px;"></canvas>
 
 <div id="slider"></div>
 
-<canvas id="canvas" style="  width: 1000px; height:1000px;"></canvas>
+
 </body>
 </html>
