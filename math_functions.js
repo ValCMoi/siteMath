@@ -29,6 +29,7 @@ class Point {
         ctx.stroke();
         ctx.closePath();
         ctx.strokeStyle = 'black';
+        alert(this.x+"  "+this.y);
     }
 }
 

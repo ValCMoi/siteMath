@@ -23,6 +23,8 @@
             var a = document.getElementById("inputA").value;
             var b = document.getElementById("inputB").value;
 
+
+
             ctx.ellipse(500, 500, a, b, 0, 0, 2 * Math.PI);
 
             ctx.stroke();
@@ -76,8 +78,8 @@
 
 
             var s = new Segment(pointDepart,pointTrajectoire);
-            s.draw(ctx,'green',500,500,2);
-
+            s.draw(ctx,'green',500,500,5);
+ctx.closePath();
         }
 
         function dessineDroite(a, c) {
@@ -102,6 +104,22 @@
 
         function dessineLigne0() {
 
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            var a = document.getElementById("inputA").value;
+            var b = document.getElementById("inputB").value;
+            var n = document.getElementById("inputN").value;
+
+            a = parseInt(a);
+            b = parseInt(b);
+
+            var e = new Ellipse(a,b);
+            var d = new Droite(pointDepart,pointTrajectoire);
+
+            var p = calculerNRebonds(e,pointDepart,pointTrajectoire,n);
+
+            p[0].draw(ctx,'purple',5,500,500,"2");
         }
 
 
