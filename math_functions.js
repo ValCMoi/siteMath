@@ -7,11 +7,9 @@ class Point {
             throw "Invalid parameter : must be number"
         }
     }
-
     get x() {
         return this._x;
     }
-
     get y() {
         return this._y;
     }

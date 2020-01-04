@@ -22,36 +22,35 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             ctx.beginPath();
+            ctx.lineWidth="1";
             var a = document.getElementById("inputA").value;
             var b = document.getElementById("inputB").value;
 
             ctx.ellipse(100, 50, a, b, 0, 0, 2 * Math.PI);
 
+
 ///njkenvkb
             ctx.stroke();
-            dessineBilleInit();
         }
 
-        function dessineBilleInit() {
+        function dessineBoule() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             ctx.beginPath();
+            //ctx.arc(100, 0, 10, 0, 2 * Math.PI);
+            ctx.width="1";
+            ctx.moveTo(0,0);
+            ctx.lineTo(100,10);
 
-            ctx.arc(100, 50, 10, 0, 2 * Math.PI);
 
             ctx.stroke();
-
         }
-
 
     </script>
 </head>
 <body>
 <button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
-
+<button id="btnBoule" onclick="dessineBoule()">Dessiner la boule</button>
 <input type="range" value="25" max="100" min="30" div id="inputA">
 <input type="range" value="25" max="40" min="10" div id="inputB">
 
