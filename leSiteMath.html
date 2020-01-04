@@ -33,11 +33,11 @@
             dessinePointTrajectoire();
             dessineLigneTrajectoire0();
 
-            var tmp = calculerRebond(ellipse, pointDepart, pointTrajectoire);
+            /*var tmp = calculerRebond(ellipse, pointDepart, pointTrajectoire);
             tmp.point.draw(ctx, 'red', 5, 500, 500);
             tmp.pointTraj.draw(ctx, 'black', 5, 500, 500);
             console.log(tmp.point);
-            console.log(tmp.pointTraj);
+            console.log(tmp.pointTraj);*/
 
             dessineLigne0();
         }
@@ -122,12 +122,16 @@ ctx.closePath();
             a = parseInt(a);
             b = parseInt(b);
 
-            var e = new Ellipse(a,b);
-            var d = new Droite(pointDepart,pointTrajectoire);
+            var e = new Ellipse(a, b);
+            var d = new Droite(pointDepart, pointTrajectoire);
 
-            var p = calculerNRebonds(e,pointDepart,pointTrajectoire,n);
+            var p = calculerNRebonds(e, pointDepart, pointTrajectoire, n);
 
-            p[0].draw(ctx,'purple',5,500,500,"2");
+            for (i = 1; i < p.length; i++) {
+                p[i].draw(ctx, 'red', 5, 500, 500, "2");
+                new Segment(p[i - 1], p[i]).draw(ctx, 'red', 500, 500, "2");
+            }
+            //p[0].draw(ctx,'purple',5,500,500,"2");
         }
 
 

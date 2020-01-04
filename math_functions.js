@@ -7,6 +7,7 @@ class Point {
             throw "Invalid parameter : must be number"
         }
     }
+
     get x() {
         return this._x;
     }
@@ -29,12 +30,12 @@ class Point {
         ctx.stroke();
         ctx.closePath();
         ctx.strokeStyle = 'black';
-        console.log(this.x + "  " + this.y);
+        //console.log(this.x + "  " + this.y);
     }
 }
 
 
-class Segment{
+class Segment {
 
     constructor(a, b) {
         if (a instanceof Point && b instanceof Point) {
@@ -42,24 +43,23 @@ class Segment{
             this._xb = b.x;
             this._ya = a.y;
             this._yb = b.y;
-        }
-         else {
-            throw "Invalid parameter : must be number or Point"
+        } else {
+            throw "Invalid parameter : must be a Point"
         }
     }
 
     draw(ctx, couleur, decalageX = 0, decalageY = 0, width = "2") {
-    ctx.width = width;
-    ctx.beginPath();
-    ctx.strokeStyle = couleur;
+        ctx.width = width;
+        ctx.beginPath();
+        ctx.strokeStyle = couleur;
 
-    ctx.moveTo(decalageX+this._xa,decalageY+this._ya);
-    ctx.lineTo(decalageX+this._xb,decalageY +this._yb);
+        ctx.moveTo(decalageX + this._xa, decalageY + this._ya);
+        ctx.lineTo(decalageX + this._xb, decalageY + this._yb);
 
-    ctx.stroke();
-    ctx.closePath();
-    ctx.strokeStyle = 'black';
-}
+        ctx.stroke();
+        ctx.closePath();
+        ctx.strokeStyle = 'black';
+    }
 
 }
 
@@ -124,8 +124,8 @@ class Ellipse {
         return this._b;
     }
 
-    intersection(droite){
-        if(droite instanceof Droite) {
+    intersection(droite) {
+        if (droite instanceof Droite) {
             const pow = Math.pow;
             //console.log(droite);
             const a = (pow(this.b, 2) + pow(this.a, 2) * pow(droite.a, 2)) / (pow(this.a, 2) * pow(this.b, 2));
