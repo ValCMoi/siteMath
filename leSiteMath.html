@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="monCss.css">
     <script type="text/javascript" src="math_functions.js"></script>
     <script>
-        //Le slider
-
-
-        var xbille = 500;
-        var ybille = 600;
-
 
         function dessineBillard() {
 
@@ -27,7 +21,7 @@
             var b = document.getElementById("inputB").value;
 
             ctx.ellipse(500, 500, a, b, 0, 0, 2 * Math.PI);
-///njkenvkb
+
             ctx.stroke();
             dessineBoule();
             dessinePointTrajectoire();
@@ -131,14 +125,29 @@
             var xb = document.getElementById("inputxb").value;
             var yb = document.getElementById("inputyb").value;
 
+            var n = document.getElementById("inputN").value;
+
+
 
             a = parseInt(a);
             b = parseInt(b);
 
-            var alpha = (yb - yt) / (xb - xt);
+            xt = parseInt(xt);
+            yt = parseInt(yt);
+
+            xb = parseInt(xb);
+            yb = parseInt(yb);
+
+
+            var alpha = (yt - yb) / (xt - xb);
 
             var d = new Droite(alpha, 0);
             var e = new Ellipse(a, b);
+
+            var ptDepart = new Point(xb,yb);
+            var ptDirection = new Point(xt,yt);
+
+            var listeRebonds = calculerNRebonds(e,ptDepart,ptDirection,n);
 
             ctx.width = "2";
             ctx.strokeStyle = 'blue';
@@ -146,7 +155,9 @@
             alert("X intersection = " + e.intersection(d).p1.x);
             alert("Y intersection = " + e.intersection(d).p1.y);
 
-
+            ctx.beginPath();
+            ctx.moveTo(500+xb,500+yb);
+            ctx.lineTo(listeRebonds[0].getX(),listeRebonds[0].getY())
             ctx.stroke();
 
             ctx.strokeStyle = 'black';
@@ -171,8 +182,14 @@
 <input type="range" value="0" max="100" min="-100" div id="inputxt">
 <input type="range" value="0" max="100" min="-100" div id="inputyt"><br>
 
+
+<p>N = nombre de rebond</p>
+<input type="range" value="0" max="100" min="1" div id="inputN"><br>
+
+
 <button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
 <br>
+
 
 
 <canvas height="1000" width="1000" id="canvas" style="  width: 1000px; height:1000px;"></canvas>
