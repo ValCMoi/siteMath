@@ -144,5 +144,7 @@ function calculerNRebonds(ellipse, pointDeDepart, pointDeDirection, n = 1) {
     res[i] = lastRes.point;
     for (i = 2; i < n; i++) {
         lastRes = calculerRebond(ellipse, lastRes.point, lastRes.pointTraj);
+        res[i] = lastRes.point;
     }
+    return res;
 }
