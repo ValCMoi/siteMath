@@ -162,7 +162,7 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
     const droiteTrajectoire = new Droite(pointDeDepart, pointDeDirection);
     const pointsRebond = ellipse.intersection(droiteTrajectoire);
     let res = {point: null, pointTraj: null};
-    if (pointDeDepart.x < pointDeDirection.y) {
+    if (pointDeDepart.x < pointDeDirection.x) {
         if (pointsRebond.p1.x > pointDeDepart.x) {
             res.point = pointsRebond.p1;
         } else {
