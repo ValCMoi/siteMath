@@ -127,13 +127,13 @@ class Ellipse {
     intersection(droite){
         if(droite instanceof Droite) {
             const pow = Math.pow;
-            console.log(droite);
+            //console.log(droite);
             const a = (pow(this.b, 2) + pow(this.a, 2) * pow(droite.a, 2)) / (pow(this.a, 2) * pow(this.b, 2));
             const b = (2 * droite.b * droite.a) / pow(this.b, 2);
             const c = pow(droite.b, 2) / pow(this.b, 2) - 1;
-            console.log("a : " + a);
-            console.log("b : " + b);
-            console.log("c : " + c);
+            //console.log("a : " + a);
+            //console.log("b : " + b);
+            //console.log("c : " + c);
             const discriminant = pow(b, 2) - 4 * a * c;
             if (discriminant > 0) {
                 const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
@@ -176,19 +176,19 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
         }
     }
     const tangente = ellipse.tangente(res.point);
-    console.log("Tangente");
-    console.log(tangente);
+    //console.log("Tangente");
+    //console.log(tangente);
     const tangente0 = new Droite(tangente.a, 0);
-    console.log("Tangente0");
-    console.log(tangente0);
+    //console.log("Tangente0");
+    //console.log(tangente0);
     const axeSymetrie = tangente.perpendiculaire(res.point);
     const centreCymetrie = axeSymetrie.intersection(tangente0);
     const pointOrigine = tangente0.intersection(droiteTrajectoire);
-    console.log("PointOrigine");
-    console.log(pointOrigine);
+    //console.log("PointOrigine");
+    //console.log(pointOrigine);
     const newTrajectoire = new Droite(res.point, pointOrigine.symetriqueCentre(centreCymetrie));
-    console.log("newTrajectoire");
-    console.log(newTrajectoire);
+    //console.log("newTrajectoire");
+    //console.log(newTrajectoire);
     /*const pointTrajX = res.point.x + pointDeDirection.x - pointDeDepart.x;
     res.pointTraj = new Point(pointTrajX, newTrajectoire.getY(pointTrajX));*/
     const pointTrajA = new Point(res.point.x + 10, newTrajectoire.getY(res.point.x + 10));
@@ -217,10 +217,10 @@ function calculerNRebonds(ellipse, pointDeDepart, pointDeDirection, n = 1) {
     let i = 1;
     let lastRes = calculerRebond(ellipse, pointDeDepart, pointDeDirection);
     res[i] = lastRes.point;
-    console.log(lastRes);
+    //console.log(lastRes);
     for (i = 2; i < n; i++) {
         lastRes = calculerRebond(ellipse, lastRes.point, lastRes.pointTraj);
-        console.log(lastRes);
+        //console.log(lastRes);
         res[i] = lastRes.point;
     }
     return res;
