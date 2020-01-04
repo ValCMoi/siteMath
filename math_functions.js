@@ -25,6 +25,7 @@ class Point {
         ctx.width = width;
         ctx.strokeStyle = couleur;
         ctx.arc(decalageX + this.x, decalageY + this.y, radius, 0, 2 * Math.PI);
+        ctx.stroke();
     }
 }
 
@@ -157,6 +158,7 @@ function calculerNRebonds(ellipse, pointDeDepart, pointDeDirection, n = 1) {
     res[i] = lastRes.point;
     for (i = 2; i < n; i++) {
         lastRes = calculerRebond(ellipse, lastRes.point, lastRes.pointTraj);
+        console.log(lastRes);
         res[i] = lastRes.point;
     }
     return res;
