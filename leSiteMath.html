@@ -8,9 +8,14 @@
     <script type="text/javascript" src="math_functions.js"></script>
     <script>
 
-        var pointDepart;
-        var pointTrajectoire;
-        var ellipse;
+        const decalagePx = 500 / 2;
+
+        let pointDepart;
+        let pointTrajectoire;
+        let ellipse;
+        let pointDepart2;
+        let pointTrajectoire2;
+        let ellipse2;
 
         function dessineBillard() {
 
@@ -21,14 +26,19 @@
 
             ctx.beginPath();
             ctx.lineWidth = "1";
-            var a = parseInt(document.getElementById("inputA").value);
-            var b = parseInt(document.getElementById("inputB").value);
+            let a = parseInt(document.getElementById("inputA").value);
+            let b = parseInt(document.getElementById("inputB").value);
+            let a2 = parseInt(document.getElementById("inputA2").value);
+            let b2 = parseInt(document.getElementById("inputB2").value);
 
 
-            ctx.ellipse(500, 500, a, b, 0, 0, 2 * Math.PI);
+            ctx.ellipse(decalagePx, decalagePx, a, b, 0, 0, 2 * Math.PI);
+            ctx.ellipse(decalagePx, decalagePx, a2, b2, 0, 0, 2 * Math.PI);
             ellipse = new Ellipse(a, b);
+            ellipse2 = new Ellipse(a2, b2);
 
             ctx.stroke();
+            actualiserCompteurs();
             dessineBoule();
             dessinePointTrajectoire();
             dessineLigneTrajectoire0();
@@ -42,18 +52,36 @@
             dessineLigne0();
         }
 
+        function actualiserCompteurs() {
+            document.getElementById("fA").textContent = document.getElementById("inputA").value;
+            document.getElementById("fB").textContent = document.getElementById("inputB").value;
+            document.getElementById("xB").textContent = document.getElementById("inputxb").value;
+            document.getElementById("yB").textContent = document.getElementById("inputyb").value;
+            document.getElementById("xT").textContent = document.getElementById("inputxt").value;
+            document.getElementById("yT").textContent = document.getElementById("inputyt").value;
+            document.getElementById("nbN").textContent = document.getElementById("inputN").value;
+
+            document.getElementById("fA2").textContent = document.getElementById("inputA2").value;
+            document.getElementById("fB2").textContent = document.getElementById("inputB2").value;
+            document.getElementById("xB2").textContent = document.getElementById("inputxb2").value;
+            document.getElementById("yB2").textContent = document.getElementById("inputyb2").value;
+            document.getElementById("xT2").textContent = document.getElementById("inputxt2").value;
+            document.getElementById("yT2").textContent = document.getElementById("inputyt2").value;
+        }
+
         function dessineBoule() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
-            var xb = document.getElementById("inputxb").value;
-            var yb = document.getElementById("inputyb").value;
+            var xb = parseInt(document.getElementById("inputxb").value);
+            var yb = parseInt(document.getElementById("inputyb").value);
+            var xb2 = parseInt(document.getElementById("inputxb2").value);
+            var yb2 = parseInt(document.getElementById("inputyb2").value);
 
-            xb = parseInt(xb);
-            yb = parseInt(yb);
-
-            pointDepart = new Point(xb,yb);
-            pointDepart.draw(ctx,'black',5,500,500,2);
+            pointDepart = new Point(xb, yb);
+            pointDepart2 = new Point(xb2, yb2);
+            pointDepart.draw(ctx, 'black', 5, decalagePx, decalagePx, 2);
+            pointDepart2.draw(ctx, 'black', 5, decalagePx, decalagePx, 2);
         }
 
         function dessinePointTrajectoire() {
@@ -61,14 +89,15 @@
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
-            var xt = document.getElementById("inputxt").value;
-            var yt = document.getElementById("inputyt").value;
+            var xt = parseInt(document.getElementById("inputxt").value);
+            var yt = parseInt(document.getElementById("inputyt").value);
+            var xt2 = parseInt(document.getElementById("inputxt2").value);
+            var yt2 = parseInt(document.getElementById("inputyt2").value);
 
-            xt = parseInt(xt);
-            yt = parseInt(yt);
-
-            pointTrajectoire = new Point(xt,yt);
-            pointTrajectoire.draw(ctx,'cyan',5,500,500,15);
+            pointTrajectoire = new Point(xt, yt);
+            pointTrajectoire2 = new Point(xt2, yt2);
+            pointTrajectoire.draw(ctx, 'cyan', 5, decalagePx, decalagePx, 15);
+            pointTrajectoire2.draw(ctx, 'cyan', 5, decalagePx, decalagePx, 15);
         }
 
 
@@ -77,17 +106,11 @@
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
 
-
-            var xt = document.getElementById("inputxt").value;
-            var yt = document.getElementById("inputyt").value;
-
-            var xb = document.getElementById("inputxb").value;
-            var yb = document.getElementById("inputyb").value;
-
-
-            var s = new Segment(pointDepart,pointTrajectoire);
-            s.draw(ctx,'green',500,500,5);
-ctx.closePath();
+            const s = new Segment(pointDepart, pointTrajectoire);
+            const s2 = new Segment(pointDepart2, pointTrajectoire2);
+            s.draw(ctx, 'green', decalagePx, decalagePx, 5);
+            s2.draw(ctx, 'green', decalagePx, decalagePx, 5);
+            ctx.closePath();
         }
 
         function dessineDroite(a, c) {
@@ -95,8 +118,8 @@ ctx.closePath();
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
 
-            var alpha = a;
-            var constante = c;
+            let alpha = a;
+            let constante = c;
 
             alpha *= -1;
             ctx.width = "2";
@@ -115,58 +138,88 @@ ctx.closePath();
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
-            var a = document.getElementById("inputA").value;
-            var b = document.getElementById("inputB").value;
-            var n = document.getElementById("inputN").value;
 
-            a = parseInt(a);
-            b = parseInt(b);
+            let n = parseInt(document.getElementById("inputN").value);
 
-            var e = new Ellipse(a, b);
-            var d = new Droite(pointDepart, pointTrajectoire);
+            let d = new Droite(pointDepart, pointTrajectoire);
 
-            var p = calculerNRebonds(e, pointDepart, pointTrajectoire, n);
+            let p = calculerNRebonds(ellipse, pointDepart, pointTrajectoire, n);
+            let p2 = calculerNRebonds(ellipse2, pointDepart2, pointTrajectoire2, n);
 
             for (i = 1; i < p.length; i++) {
-                p[i].draw(ctx, 'red', 5, 500, 500, "2");
-                new Segment(p[i - 1], p[i]).draw(ctx, 'red', 500, 500, "2");
+                p[i].draw(ctx, 'red', 5, decalagePx, decalagePx, "2");
+                p2[i].draw(ctx, 'blue', 5, decalagePx, decalagePx, "2");
+                new Segment(p[i - 1], p[i]).draw(ctx, 'red', decalagePx, decalagePx, "2");
+                new Segment(p2[i - 1], p2[i]).draw(ctx, 'blue', decalagePx, decalagePx, "2");
             }
-            //p[0].draw(ctx,'purple',5,500,500,"2");
         }
 
 
     </script>
 </head>
 <body>
+<div style="display: flex">
+    <div style="width: 45vw; background-color: red">
+        <p>Foyer A et Foyer B</p>
+        <input class="slider" type="range" value="250" max="250" min="150" div id="inputA" onchange="dessineBillard()">
+        <span
+                id="fA">0</span>
+        <input class="slider" type="range" value="150" max="250" min="150" div id="inputB" onchange="dessineBillard()">
+        <span
+                id="fB">0</span><br>
+
+        <p>Position x et position y de la boule</p>
+        <input class="slider" type="range" value="0" max="100" min="-100" div id="inputxb" onchange="dessineBillard()">
+        <span
+                id="xB">0</span>
+        <input class="slider" type="range" value="0" max="100" min="-100" div id="inputyb" onchange="dessineBillard()">
+        <span
+                id="yB">0</span><br>
 
 
-<p>Foyer A et Foyer B</p>
-<input type="range" value="25" max="250" min="150" div id="inputA">
-<input type="range" value="25" max="250" min="150" div id="inputB"><br>
+        <p>Position x et y du point trajectoire</p>
+        <input class="slider" type="range" value="25" max="100" min="-100" div id="inputxt" onchange="dessineBillard()">
+        <span id="xT">0</span>
+        <input class="slider" type="range" value="25" max="100" min="-100" div id="inputyt" onchange="dessineBillard()">
+        <span id="yT">0</span><br>
 
-<p>Position x et position y de la boule</p>
-<input type="range" value="25" max="100" min="-100" div id="inputxb">
-<input type="range" value="25" max="100" min="-100" div id="inputyb"><br>
+    </div>
+    <div style="width: 45vw; background-color: blue">
+        <p>Foyer A et Foyer B</p>
+        <input class="slider" type="range" value="250" max="250" min="150" div id="inputA2" onchange="dessineBillard()">
+        <span
+                id="fA2">0</span>
+        <input class="slider" type="range" value="150" max="250" min="150" div id="inputB2" onchange="dessineBillard()">
+        <span
+                id="fB2">0</span><br>
+
+        <p>Position x et position y de la boule</p>
+        <input class="slider" type="range" value="-1" max="100" min="-100" div id="inputxb2"
+               onchange="dessineBillard()"> <span
+            id="xB2">0</span>
+        <input class="slider" type="range" value="0" max="100" min="-100" div id="inputyb2" onchange="dessineBillard()">
+        <span
+                id="yB2">0</span><br>
 
 
-<p>Position x et y du point trajectoire</p>
-<input type="range" value="0" max="100" min="-100" div id="inputxt">
-<input type="range" value="0" max="100" min="-100" div id="inputyt"><br>
+        <p>Position x et y du point trajectoire</p>
+        <input class="slider" type="range" value="25" max="100" min="-100" div id="inputxt2"
+               onchange="dessineBillard()"> <span
+            id="xT2">0</span>
+        <input class="slider" type="range" value="25" max="100" min="-100" div id="inputyt2"
+               onchange="dessineBillard()"> <span
+            id="yT2">0</span><br>
 
 
-<p>N = nombre de rebond</p>
-<input type="range" value="0" max="100" min="1" div id="inputN"><br>
-
-
-<button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
-<br>
-
-
-
-<canvas height="1000" width="1000" id="canvas" style="  width: 1000px; height:1000px;"></canvas>
-
-<div id="slider"></div>
-
+    </div>
+    <div>
+        <p>N = nombre de rebond</p>
+        <input type="range" step="1" value="8" max="10" min="1" div id="inputN" onchange="dessineBillard()"> <span
+            id="nbN">0</span><br>
+        <button id="btnDessin" onclick="dessineBillard()">Dessiner le billard</button>
+    </div>
+</div>
+<canvas height="500" width="500" id="canvas" style="width: 500px; height:500px;"></canvas>
 
 </body>
 </html>

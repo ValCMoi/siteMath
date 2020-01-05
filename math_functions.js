@@ -34,7 +34,6 @@ class Point {
     }
 }
 
-
 class Segment {
 
     constructor(a, b) {
@@ -88,7 +87,7 @@ class Droite {
         if (point instanceof Point) {
             // TODO : test si point sur droite
             const a = -1 / this.a
-            const b = point.y + a * point.x;
+            const b = point.y + (1 / this.a * point.x);
             return new Droite(a, b);
         }
     }
@@ -96,7 +95,9 @@ class Droite {
     intersection(droite) {
         if (droite instanceof Droite) {
             if (droite.a != this.a) {
-                return new Point((droite.b - this.b) / (this.a - droite.a), ((droite.b - this.b) / (this.a - droite.a) * this.a));
+                const x = (droite.b - this.b) / (this.a - droite.a);
+                const y = this.getY(x);
+                return new Point(x, y);
             }
         }
     }
@@ -159,7 +160,10 @@ class Ellipse {
 }
 
 function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
+    console.log("------------------------------------");
     const droiteTrajectoire = new Droite(pointDeDepart, pointDeDirection);
+    console.log("droiteTrajectoire");
+    console.log(droiteTrajectoire);
     const pointsRebond = ellipse.intersection(droiteTrajectoire);
     let res = {point: null, pointTraj: null};
     if (pointDeDepart.x < pointDeDirection.x) {
@@ -175,20 +179,26 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
             res.point = pointsRebond.p2;
         }
     }
+    console.log("intersection");
+    console.log(res.point);
     const tangente = ellipse.tangente(res.point);
-    //console.log("Tangente");
-    //console.log(tangente);
+    console.log("Tangente");
+    console.log(tangente);
     const tangente0 = new Droite(tangente.a, 0);
-    //console.log("Tangente0");
-    //console.log(tangente0);
+    console.log("Tangente0");
+    console.log(tangente0);
     const axeSymetrie = tangente.perpendiculaire(res.point);
+    console.log("axeSymetrie");
+    console.log(axeSymetrie);
     const centreCymetrie = axeSymetrie.intersection(tangente0);
+    console.log("centreCymetrie");
+    console.log(centreCymetrie);
     const pointOrigine = tangente0.intersection(droiteTrajectoire);
-    //console.log("PointOrigine");
-    //console.log(pointOrigine);
+    console.log("PointOrigine");
+    console.log(pointOrigine);
     const newTrajectoire = new Droite(res.point, pointOrigine.symetriqueCentre(centreCymetrie));
-    //console.log("newTrajectoire");
-    //console.log(newTrajectoire);
+    console.log("newTrajectoire");
+    console.log(newTrajectoire);
     /*const pointTrajX = res.point.x + pointDeDirection.x - pointDeDepart.x;
     res.pointTraj = new Point(pointTrajX, newTrajectoire.getY(pointTrajX));*/
     const pointTrajA = new Point(res.point.x + 10, newTrajectoire.getY(res.point.x + 10));
@@ -213,14 +223,15 @@ function calculerRebond(ellipse, pointDeDepart, pointDeDirection) {
 Renvoie une liste de points
  */
 function calculerNRebonds(ellipse, pointDeDepart, pointDeDirection, n = 1) {
+    console.log("===================")
     let res = [pointDeDepart];
     let i = 1;
     let lastRes = calculerRebond(ellipse, pointDeDepart, pointDeDirection);
     res[i] = lastRes.point;
-    //console.log(lastRes);
+    console.log(lastRes);
     for (i = 2; i < n; i++) {
         lastRes = calculerRebond(ellipse, lastRes.point, lastRes.pointTraj);
-        //console.log(lastRes);
+        console.log(lastRes);
         res[i] = lastRes.point;
     }
     return res;
